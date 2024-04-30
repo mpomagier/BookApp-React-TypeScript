@@ -1,24 +1,22 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Book } from "../../interfaces/Book.interface";
+import BookItem from "../BookItem/BookItem";
 import "./BooksList.css";
+import { useAppSelector, useAppDispatch } from "./../../utils/redux";
+import { removeBook } from "./../../redux/booksRedux";
 
-type Props = {
-  books: Book[];
-  onDeleteBook: (id: string) => void;
-};
-
-const BooksList: FC<Props> = ({ books, onDeleteBook }) => {
-  const handleDeleteBook = (id: string) => {
-    onDeleteBook(id);
-  };
+const BooksList: FC = () => {
+  const books = useAppSelector((state) => state.books);
+  const dispatch = useAppDispatch();
 
   return (
     <ul className="books-list">
       {books.map((book: Book) => (
-        <li key={book.id} className="book-item">
-          {book.title} by {book.author}, ${book.price}
-          <button onClick={() => handleDeleteBook(book.id)}>Delete</button>{" "}
-        </li>
+        <BookItem
+          key={book.id}
+          book={book}
+          removeBook={(id: string) => dispatch(removeBook(id))}
+        />
       ))}
     </ul>
   );

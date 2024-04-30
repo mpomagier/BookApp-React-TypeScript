@@ -1,13 +1,12 @@
 import React, { FC, useState } from "react";
+import { useAppDispatch } from "../../utils/redux";
+import { addBook } from "../../redux/booksRedux";
 import { Book } from "../../interfaces/Book.interface";
 import { randomID } from "../../utils/randomID";
 import "./AddBookForm.css";
 
-type Props = {
-  addBook: (book: Book) => void;
-};
-
-const AddBookForm: FC<Props> = ({ addBook }) => {
+const AddBookForm: FC = () => {
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState<string>("");
   const [author, setAuthor] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
@@ -20,7 +19,7 @@ const AddBookForm: FC<Props> = ({ addBook }) => {
       author,
       price,
     };
-    addBook(book);
+    dispatch(addBook(book));
     setTitle("");
     setAuthor("");
     setPrice(0);
