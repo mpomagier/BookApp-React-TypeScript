@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import BooksList from "./components/BooksList/BooksList";
 import { Book } from "./interfaces/Book.interface";
+import AddBookForm from "./components/AddBookForm/AddBookForm";
 
 // import logo from './logo.svg';
 // import "./App.css";
@@ -22,16 +23,17 @@ const booksData: Book[] = [
 
 const App: FC = () => {
   const [books, setBooks] = useState<Book[]>(booksData);
+  const addBook = (book: Book) => setBooks([...books, book]);
+  const deleteBook = (id: string) =>
+    setBooks(books.filter((book) => book.id !== id));
 
   return (
     <div className="container">
       <header>
         <h1>Books App</h1>
-        <BooksList books={books} />
+        <BooksList books={books} onDeleteBook={deleteBook} />
+        <AddBookForm addBook={addBook} />
       </header>
-      {books.map((book: Book) => (
-        <span>{book.title}</span>
-      ))}
     </div>
   );
 };
